@@ -9,27 +9,35 @@ from datetime import datetime
 
 load_dotenv()
 
-api_key = os.getenv('API_KEY')
-url = "https://app.ticketmaster.com/discovery/v2"
+def extractData():
+    # load api key from .env
+    api_key = os.getenv('API_KEY')
+    url = "https://app.ticketmaster.com/discovery/v2"
 
-city = ["London"]
-unit = "km"
-startDateTime, endDateTime = getNextWeekend()
-size = "100"
-onsaleEndDate = str(datetime.now())
+    # currently hardcoded parameters
+    city = ["London"]
+    unit = "km"
+    startDateTime, endDateTime = getNextWeekend()
+    size = "100"
+    onsaleEndDate = str(datetime.now())
 
-params1 = {"onsaleEndDate":onsaleEndDate,"sort":"random","size":size,"apikey": api_key, "city": city, "unit":unit,"startDateTime":startDateTime,"endDateTime":endDateTime}
-findEvent = requests.get(f"{url}/events",params=params1)
+    # request 100 events that meet the criteria
+    params1 = {"onsaleEndDate":onsaleEndDate,"sort":"random","size":size,"apikey": api_key, "city": city, "unit":unit,"startDateTime":startDateTime,"endDateTime":endDateTime}
+    findEvent = requests.get(f"{url}/events",params=params1)
 
-eventIds = []
-for event in findEvent.json()['_embedded']['events']:
-    eventIds.append(event["id"])
-eventId = eventIds[random.randint(0,len(eventIds))]
-print(eventId)
-params2 = {"id":eventId, "apikey": api_key}
-eventDetails = requests.get(f"{url}/events/{eventId}", params=params2)
+    # extract events' ids
+    eventIds = []
+    for event in findEvent.json()['_embedded']['events']:
+        eventIds.append(event["id"])
 
-with open('data.json', 'w') as f:
-    json.dump(eventDetails.json(), f)
+    # randomly choose an event
+    eventId = eventIds[random.randint(0,len(eventIds))]
+
+    # call that event's details
+    params2 = {"id":eventId, "apikey": api_key}
+    eventDetails = requests.get(f"{url}/events/{eventId}", params=params2)
+
+    return eventDetails.json()
+
 
 

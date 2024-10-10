@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Event This Weekend</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Random London Event This Weekend!</h1>
+        <button id="generate-btn">Find Event!</button>
+        <div id="event-display"></div> <!-- Placeholder to display fetched data -->
+    </div>
+
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', async function() {
+            try {
+                const response = await fetch('/getEvent'); // Fetch the event data
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const data = await response.json(); // Parse JSON data
+                displayData(data); // Call the function to display data
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+
+        function displayData(data) {
+            const eventDisplayDiv = document.getElementById('event-display'); // Get the display div
+            eventDisplayDiv.innerHTML = ''; // Clear previous content
+
+            const nameDiv = document.createElement('div');
+            nameDiv.className = 'eventName';
+            nameDiv.innerHTML = `Event Name: ${data.name}`; // Display the name attribute
+            eventDisplayDiv.appendChild(nameDiv); // Append the new event name to the display div
+        }
+    </script>
+</body>
+</html>
