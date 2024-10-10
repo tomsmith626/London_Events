@@ -10,22 +10,30 @@
     <div class="container">
         <h1>Random London Event This Weekend!</h1>
         <form action="/findEvent" method="POST">
-            <button id="generate-btn" type="submit">Find Event!</button>
+            <button id="generate-btn" type="button">Find Event!</button>
         </form>
     </div>
         
     <script>
+        async function refreshData() {
+            // This will trigger the Python script to run
+            const response = await fetch('/findEvent', {
+                method: 'POST',
+            });
+
         async function fetchData() {
             const response = await fetch('data.json');
             const data = await response.json(); // Parse JSON data
             displayData(data);
         }
         function displayData(data) {
+            eventDisplayDiv.innerHTML = '';
             const nameDiv = document.createElement('div');
             nameDiv.className = 'eventName';
             nameDiv.innerHTML = `Event Name: ${data.name}`
             document.querySelector('.container').appendChild(nameDiv)
         }
+        document.getElementById('generate-btn').addEventListener('click', refreshData);
         document.getElementById('generate-btn').addEventListener('click', fetchData);
     </script>
 </body>
