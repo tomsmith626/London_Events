@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: fantasy, copperplate;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,14 +8,9 @@ body {
     background-color: #f4f4f4;
 }
 
-eventName {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f4f4f4;
+head {
+    font-family: fantasy, copperplate;
+    
 }
 
 .container {

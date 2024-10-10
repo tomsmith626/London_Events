@@ -1,0 +1,15 @@
+
+
+        
+            const priceDiv = document.createElement('div');
+            nameDiv.className = 'price';
+            try {
+                let minPrice = data.priceRanges[0]['min']
+            } catch (error) {
+                let minPrice = "TBC"
+            }
+            priceDiv.innerHTML = `Minimum Price: £${minPrice}`;
+
+            eventDisplayDiv.appendChild(priceDiv);
+
+            
