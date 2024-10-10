@@ -1,6 +1,12 @@
+Add prices - if available
+Add error catches for all data
+Clean formatting
+Ensure only events with tickets are presented
 
 
-        
+
+Code dump:
+
             const priceDiv = document.createElement('div');
             nameDiv.className = 'price';
             try {
