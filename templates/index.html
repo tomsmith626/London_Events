@@ -16,44 +16,53 @@
     <script>
         document.getElementById('generate-btn').addEventListener('click', async function() {
             try {
-                const response = await fetch('/getEvent'); // Fetch the event data
+                // fetch event data from Python file
+                const response = await fetch('/getEvent');
+                // raise an error if network response not ok
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-                const data = await response.json(); // Parse JSON data
-                displayData(data); // Call the function to display data
+                // parse JSON eventData
+                const eventData = await response.json(); 
+                // call the function to display eventData
+                displayData(eventData); 
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching eventData:', error);
             }
         });
 
-        function displayData(data) {
-            const eventDisplayDiv = document.getElementById('event-display'); // Get the display div
-            eventDisplayDiv.innerHTML = ''; // Clear previous content
+        function displayData(eventData) {
+            // get the display div
+            const eventDisplayDiv = document.getElementById('event-display'); 
+            // clear previous content
+            eventDisplayDiv.innerHTML = ''; 
 
+            // display event's name
             const nameDiv = document.createElement('a');
             nameDiv.className = 'name';
-            nameDiv.href = data['url'];
+            nameDiv.href = eventData['url'];
             nameDiv.target = '_blank';
-            nameDiv.innerHTML = `Event Name: ${data.name}`;
+            nameDiv.innerHTML = `Event Name: ${eventData.name}`;
 
+            // display event's picture
             const picture = document.createElement('img');
             nameDiv.className = 'picture';
-            picture.src = data.images[0]['url'];
+            picture.src = eventData.images[0]['url'];
             picture.style.height = "200px";
             picture.style.width = "auto";
-
+            
+            // display event's venue
             const venue = document.createElement('div');
             nameDiv.className = 'venue';
-            venue.innerHTML = `Venue: ${data['_embedded']['venues'][0]['name']}`;
+            venue.innerHTML = `Venue: ${eventData['_embedded']['venues'][0]['name']}`;
             
+            // display event's type
             const eventType = document.createElement('div');
             eventType.className = "eventType"
-            eventType.innerHTML = `Event Type: ${data['classifications'][0]['segment']['name']}` 
+            eventType.innerHTML = `Event Type: ${eventData['classifications'][0]['segment']['name']}` 
 
-
-
-            eventDisplayDiv.appendChild(nameDiv); // Append the new event name to the display div
+            // append new elements to event display div
+            eventDisplayDiv.appendChild(nameDiv);
             eventDisplayDiv.appendChild(venue);
             eventDisplayDiv.appendChild(eventType);
             eventDisplayDiv.appendChild(picture);

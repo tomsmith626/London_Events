@@ -1,6 +1,10 @@
+To add:
 Add prices - if available
 Add error catches for all data
-Clean formatting
+
+To amend:
+Correct approach to extracting data - current process likely to see repeats and not extract all events.
+Clean formatting/style in CSS
 Ensure only events with tickets are presented
 
 
